@@ -42,7 +42,7 @@ class BaseController extends AbstractController
                     'sujet'=> $contact->getSujet(),
                     'message'=> $contact->getMessage()
                 ]);
-
+                $contact->setDateEnvoi(new \Datetime());
                 $entityManagerInterface->persist($contact);
                 $entityManagerInterface->flush();
                 
