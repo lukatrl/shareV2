@@ -10,6 +10,8 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Mailer\MailerInterface;
 // use Symfony\Component\Mime\Email; (la ligne est inutile)
 use Symfony\Bridge\Twig\Mime\TemplatedEmail;
+use App\Entity\Contact;
+use Doctrine\ORM\EntityManagerInterface;
 
 class BaseController extends AbstractController
 {
@@ -23,23 +25,27 @@ class BaseController extends AbstractController
 
 
     #[Route('/contact', name: 'contact')]
-    public function contact(Request $request, MailerInterface $mailer): Response    {
-        $form = $this->createForm(ContactType::class);
+    public function contact(Request $request, MailerInterface $mailer, EntityManagerInterface $entityManagerInterface): Response    {
+        $contact = new Contact();
+        $form = $this->createForm(ContactType::class, $contact);
 
         if($request->isMethod('POST')){
             $form->handleRequest($request);
             if ($form->isSubmitted()&&$form->isValid()){
                 $email = (new TemplatedEmail())
-                ->from($form->get('email')->getData())
+                ->from($contact->getEmail())
                 ->to('reply@nuage-pedagogique.fr')
-                ->subject($form->get('sujet')->getData())
+                ->subject($contact->getSujet())
                 ->htmlTemplate('emails/email.html.twig')
                 ->context([
-                    'nom'=> $form->get('nom')->getData(),
-                    'sujet'=> $form->get('sujet')->getData(),
-                    'message'=> $form->get('message')->getData()
+                    'nom'=> $contact->getNom(),
+                    'sujet'=> $contact->getSujet(),
+                    'message'=> $contact->getMessage()
                 ]);
-              
+
+                $entityManagerInterface->persist($contact);
+                $entityManagerInterface->flush();
+                
                 $mailer->send($email);
                 $this->addFlash('notice','Message envoyé');
                 return $this->redirectToRoute('contact');
