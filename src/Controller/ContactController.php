@@ -10,7 +10,7 @@ use Doctrine\ORM\EntityManagerInterface;
 
 class ContactController extends AbstractController
 {
-    #[Route('/liste-contacts', name: 'liste-contacts')]
+    #[Route('/private-liste-contacts', name: 'liste-contacts')]
     public function listeContacts(EntityManagerInterface $entityManagerInterface): Response
     {
         $repoContact = $entityManagerInterface->getRepository(Contact::class);
