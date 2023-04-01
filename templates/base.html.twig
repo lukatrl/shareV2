@@ -37,11 +37,22 @@
 						<li class="nav-item">
 							<a class="nav-link text-white" href="{{path('apropos')}}">À propos
 							</a>
-            </li>
+            			</li>
 						<li class="nav-item">
 							<a class="nav-link text-white" href="{{path('mention-legales')}}">Mentions légales
 							</a>
 						</li>
+						<li class="nav-item dropdown">
+          					<a class="nav-link dropdown-toggle text-white" href="#" id="navbarScrollingDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">Administration</a>
+          					<ul class="dropdown-menu" aria-labelledby="navbarScrollingDropdown">
+            			{% if is_granted('ROLE_ADMIN') or is_granted('ROLE_MOD')%}
+    						<li class="nav-item">
+								<a class="dropdown-item text-primary" href="{{path('liste-contacts')}}">Liste des contacts</a>
+    						</li>
+            					<li><a class="dropdown-item text-primary" href="#">Liste des utilisateurs</a></li>
+          					</ul>
+        				</li>
+						{% endif %}
 						{% if not is_granted('IS_AUTHENTICATED_FULLY') %}
 							<li class="nav-item">
 								<a class="nav-link text-white" href="{{path('app_login')}}">Se connecter
@@ -52,12 +63,11 @@
 								</a>
 							</li>
 						{% else %}
-		          <li class="nav-item">
-	              <a class="nav-link text-white" href="{{path('app_logout')}}"> {{app.user.email}}
-				          <i class="bi bi-x-circle-fill text-white"></i>
-			          </a>
-		          </li>
-            {% endif %}
+		          			<li class="nav-item">
+	              				<a class="nav-link text-white" href="{{path('app_logout')}}"> {{app.user.email}}
+				          	<i class="bi bi-x-circle-fill text-white"></i></a>
+		          			</li>
+            			{% endif %}
 					</ul>
 				</div>
 			</div>
