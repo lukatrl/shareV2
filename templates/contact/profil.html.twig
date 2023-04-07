@@ -4,4 +4,25 @@
 
 {% block body %}
 	<h1 class="text-center text-primary mt-4 pt-4 display-1 fw-bold">Profil</h1>
+
+	<div class="col-12 col-md-8 bg-white p-4 m-0 text-primary">
+		<p>Email: {{ app.user.email | capitalize }}</p>
+		<p>Nom: {{ app.user.nom | capitalize }}</p>
+		<p>Prenom: {{ app.user.prenom | capitalize }}</p>
+		<p>Date d'inscription: {{ app.user.dateInscription | date("d-m-Y à H:i:s") }}</p>
+
+		{% if "ROLE_ADMIN" in app.user.roles %}
+			<p>Rôle: administrateur</p>
+		{% elseif "ROLE_MOD" in app.user.roles %}
+			<p>Rôle: modérateur</p>
+		{% else %}
+			<p>Rôle: utilisateur</p>
+		{% endif %}
+
+		{% if app.user.isVerified == 0 %}
+			<p>Satus du compte: vérifié</p>
+		{% else %}
+			<p>Satus du compte: vérifié</p>
+		{% endif %}
+	</div>
 {% endblock %}

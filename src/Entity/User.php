@@ -36,6 +36,12 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
     private ?\DateTimeInterface $dateInscription = null;
 
+    #[ORM\Column(length: 30)]
+    private ?string $nom = null;
+
+    #[ORM\Column(length: 30)]
+    private ?string $prenom = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -145,6 +151,30 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setDateInscription(\DateTimeInterface $dateInscription): self
     {
         $this->dateInscription = $dateInscription;
+
+        return $this;
+    }
+
+    public function getNom(): ?string
+    {
+        return $this->nom;
+    }
+
+    public function setNom(string $nom): self
+    {
+        $this->nom = $nom;
+
+        return $this;
+    }
+
+    public function getPrenom(): ?string
+    {
+        return $this->prenom;
+    }
+
+    public function setPrenom(string $prenom): self
+    {
+        $this->prenom = $prenom;
 
         return $this;
     }

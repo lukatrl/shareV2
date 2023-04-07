@@ -30,10 +30,12 @@ class ContactController extends AbstractController
         ]);
     }
     #[Route('/private-profil', name: 'profil')]
-    public function profil(): Response
+    public function profil(EntityManagerInterface $entityManagerInterface): Response
     {
+        $repoUser = $entityManagerInterface->getRepository(User::class);
+        $user = $repoUser->findAll();
         return $this->render('contact/profil.html.twig', [
-
+            'user' => $user
         ]);
     }
 }
