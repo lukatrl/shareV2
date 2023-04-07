@@ -1,0 +1,45 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{parent()}}Liste des utilisateurs{% endblock %}
+
+{% block body %}
+    <h1 class="text-center text-primary mt-4 pt-4 display-1 fw-bold"> Liste des utilisateurs</h1>
+
+	<div class="row justify-content-center">
+			<div class="col-12 col-md-8 bg-white p-4 m-0 text-primary">
+				<div class="table-responsive">
+					<table class="table table-hover">
+						<thead>
+							<tr class="fw-bold text-primary">
+								<th scope="col">Email</th>
+								<th scope="col">Date d'inscription</th>
+								<th scope="col">Rôle ?</th>
+								<th scope="col">Vérifé ?</th>
+							</tr>
+						</thead>
+						{% for user in user %}
+								<tr class="{{ cycle(['table-primary', 'table-secondary'], loop.index0) }}">
+									<td>{{ user.email | capitalize }}</td>
+									<td>{{ user.dateInscription | date("d-m-Y à H:i:s") }}</td>
+									{% if "ROLE_ADMIN" in user.roles %}
+										<td>administrateur</td>
+									{% elseif "ROLE_MOD" in user.roles %}
+										<td>modérateur</td>
+									{% else %}
+										<td>utilisateur</td>
+									{% endif %}
+
+									<td>{{ user.email | capitalize }}</td>
+
+									{% if user.isVerified == 0 %}
+										<td>non vérifié</td>
+								 	{% else %}
+										<td>vérifié</td>
+									{% endif %}
+						{% endfor %}
+					</table>
+				</div>
+			</div>
+		</div>
+	</div>
+{% endblock %}

@@ -7,6 +7,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use App\Entity\Contact;
 use Doctrine\ORM\EntityManagerInterface;
+use App\Entity\User;
 
 class ContactController extends AbstractController
 {
@@ -17,6 +18,22 @@ class ContactController extends AbstractController
         $contacts = $repoContact->findAll();
         return $this->render('contact/liste-contacts.html.twig', [
            'contacts' => $contacts
+        ]);
+    }
+    #[Route('/private-utilisateurs', name: 'utilisateurs')]
+    public function utilisateurs(EntityManagerInterface $entityManagerInterface): Response
+    {
+        $repoUser = $entityManagerInterface->getRepository(User::class);
+        $user = $repoUser->findAll();
+        return $this->render('contact/utilisateurs.html.twig', [
+           'user' => $user
+        ]);
+    }
+    #[Route('/private-profil', name: 'profil')]
+    public function profil(): Response
+    {
+        return $this->render('contact/profil.html.twig', [
+
         ]);
     }
 }
