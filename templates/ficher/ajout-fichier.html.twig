@@ -1,0 +1,56 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+	{{parent()}}Ajouter un fichier
+{% endblock %}
+
+{% block body %}
+	<div class="container-fluid">
+		<h1 class="text-center text-primary mt-4 pt-4 display-1 fw-bold">
+			Ajouter un fichier</h1>
+		<div class="row justify-content-center">
+			<div class="col-12 bg-white p-4 m-0 text-primary">
+				{{form(form)}}
+				</div>
+			</div>
+			<div class="row justify-content-center">
+				<div class="col-12 bg-white p-4 m-0 text-primary">
+					<div class="table-responsive">
+						<table class="table caption-top">
+							<caption>Liste des fichiers</caption>
+							<thead>
+								<tr>
+									<th scope="col">Nom</th>
+									
+									<th scope="col">Date</th>
+									<th scope="col">Extension</th>
+									<th scope="col">Taille</th>
+                                    <th scope="col"></th>
+								</tr>
+							</thead>
+							<tbody>
+								{% for f in app.user.fichiers | sort((a, b) => a.nomOriginal <=> b.nomOriginal) %}
+									<tr class="{{ cycle(['table-primary', 'table-secondary'], loop.index0) }}">
+										<td>{{f.nomOriginal}}</td>
+										
+										<td>{{f.dateEnvoi | date("d-m-Y à H:i:s") }}</td>
+										<td>
+											{% if f.extension == 'pdf'%}
+												<i class="bi bi-file-earmark-pdf"></i>
+											{% else %}
+												<i class="bi bi-file-earmark-text"></i>
+											{% endif %}
+										</td>
+										{% set ko = f.taille / 1000 %}
+										<td>{{ko}}
+											ko</td>
+                                            <td><a href="{{path('telechargement-fichier', {'id':f.id})}}" target="_blank"><i class="bi bi-download text-black"></i></td> 
+									</tr>
+								{% endfor %}
+							</tbody>
+						</table>
+					</div>
+				</div>
+			</div>
+		</div>
+	{% endblock %}
