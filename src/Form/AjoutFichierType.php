@@ -17,7 +17,7 @@ class AjoutFichierType extends AbstractType
             ->add('fichier', FileType::class, array('label' => 'Fichier à télécharger',
             'constraints' => [
                 new File([
-                    'maxSize' => '200k',
+                    'maxSize' => '1000k',
                     'mimeTypes' => [
                         'application/pdf',
                         'application/x-pdf',

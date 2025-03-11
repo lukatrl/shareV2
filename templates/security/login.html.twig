@@ -13,7 +13,7 @@
 		<div class="row justify-content-center">
 			<div class="col-12 col-md-6 bg-white p-4 m-0 text-primary">
 
-				<form method="post">
+				<form method="post" id="login-form">
 					{% if error %}
 						<div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
 					{% endif %}
@@ -44,13 +44,20 @@
 					                <input type="checkbox" name="_remember_me"> Remember me
 					            </label>
 					        </div>
-					    #}
-                    <div class="text-center">
+					#}
+
+					<!-- Partie Captcha -->
+					<div id="captcha-question" class="fw-bold">{{ captcha_question }}</div>
+					<input type="text" id="captcha-input" name="captcha" required>
+					<input type="hidden" id="captcha-solution" name="captcha_solution" value="{{ captcha_solution }}">
+
+					<div class="text-center">
 					<button class="btn bg-primary text-white m-4" type="submit">
 						CONNEXION
 					</button>
                     </div>
 				</form>
+			<script src="{{ asset('Js/captcha.js') }}"></script>
 			</div>
 		</div>
 	</div>
