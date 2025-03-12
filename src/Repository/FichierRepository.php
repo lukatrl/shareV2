@@ -39,6 +39,18 @@ class FichierRepository extends ServiceEntityRepository
         }
     }
 
+    public function countFilesByUser(): array
+    {
+        $qb = $this->createQueryBuilder('f')
+            ->select('u.nom, u.prenom as user, COUNT(f.id) as fileCount')
+            ->join('f.proprietaire', 'u')
+            ->groupBy('u.id')
+            ->orderBy('fileCount', 'ASC');
+            
+            
+        return $qb->getQuery()->getResult();
+    }    
+
 //    /**
 //     * @return Fichier[] Returns an array of Fichier objects
 //     */

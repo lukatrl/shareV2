@@ -25,18 +25,13 @@ security:
 
                 # where to redirect after logout
                 # target: app_any_route
-
-            # activate different ways to authenticate
-            # https://symfony.com/doc/current/security.html#the-firewall
-
-            # https://symfony.com/doc/current/security/impersonating_user.html
-            # switch_user: true
-
     # Easy way to control access for large sections of your site
     # Note: Only the *first* access control that matches will be used
     access_control:
         # - { path: ^/admin, roles: ROLE_ADMIN }
         # - { path: ^/profile, roles: ROLE_USER }
+        # Autoriser l'accès à /stats/files même pour les utilisateurs non authentifiés
+        - { path: ^/stats/files, roles: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/private, roles: IS_AUTHENTICATED_FULLY }
 
 when@test:
