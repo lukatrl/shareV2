@@ -1,64 +1,175 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}{{parent()}} Connectez-vous
-{% endblock %}
+{% block title %}{{parent()}} Connectez-vous{% endblock %}
 
 {% block body %}
+    <div class="container mt-5">
+        <div class="content-wrapper" style="background-color: #f6f8fa; border: 1px solid var(--custom-green); border-radius: 6px; padding: 2rem;">
+            <h1 class="text-center mt-4 pt-4 display-4 fw-bold animate-title" style="color: var(--custom-green);">
+                Connectez-vous
+            </h1>
+            <div class="row justify-content-center">
+                <div class="col-12 col-md-6 p-4 m-0" style="color: var(--github-dark);">
+                    <form method="post" id="login-form">
+                        {% if error %}
+                            <div class="alert alert-danger animate-text">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
+                        {% endif %}
 
-	<div class="container-fluid">
-	<h1 class="text-center text-primary mt-4 pt-4 display-1 fw-bold">
-			Connectez-vous</h1>
+                        {% if app.user %}
+                            <div class="mb-3 animate-text">
+                                Vous êtes connecté en tant que {{ app.user.username }}, 
+                                <a href="{{ path('app_logout') }}" style="color: var(--custom-green);">Déconnexion</a>
+                            </div>
+                        {% endif %}
 
+                        <div class="form-group animate-text">
+                            <label for="inputEmail" class="fw-bold">Email</label>
+                            <input type="email" value="{{ last_username }}" name="email" id="inputEmail" class="form-control" autocomplete="email" required autofocus>
+                        </div>
+                        <div class="form-group animate-text">
+                            <label for="inputPassword" class="fw-bold">Mot de passe</label>
+                            <input type="password" name="password" id="inputPassword" class="form-control" autocomplete="current-password" required>
+                        </div>
+                        <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
 
-		<div class="row justify-content-center">
-			<div class="col-12 col-md-6 bg-white p-4 m-0 text-primary">
+                        <div class="form-group animate-text checkbox mb-3">
+                            <label>
+                                <input type="checkbox" name="_remember_me" checked> Se souvenir de moi
+                            </label>
+                        </div>
 
-				<form method="post" id="login-form">
-					{% if error %}
-						<div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
-					{% endif %}
+                        <!-- Partie Captcha -->
+                        <div class="form-group animate-text">
+                            <div id="captcha-question" class="fw-bold">{{ captcha_question }}</div>
+                            <input type="text" id="captcha-input" name="captcha" required>
+                            <input type="hidden" id="captcha-solution" name="captcha_solution" value="{{ captcha_solution }}">
+                        </div>
 
-					{% if app.user %}
-						<div class="mb-3">
-							You are logged in as
-							{{ app.user.username }},
-							<a href="{{ path('app_logout') }}">Logout</a>
-						</div>
-					{% endif %}
+                        <div class="text-center">
+                            <button class="submit-btn" type="submit">Connexion</button>
+                        </div>
+                    </form>
+                    <script src="{{ asset('Js/captcha.js') }}"></script>
+                </div>
+            </div>
+        </div>
+    </div>
 
-					
-					<label for="inputEmail" class="fw-bold">Email</label>
-					<input type="email" value="{{ last_username }}" name="email" id="inputEmail" class="form-control" autocomplete="email" required autofocus>
-					<label for="inputPassword" class="fw-bold">Mot de passe</label>
-					<input type="password" name="password" id="inputPassword" class="form-control" autocomplete="current-password" required>
+    <style>
+        /* Animation pour le titre */
+        @keyframes fadeInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
 
-					<input
-					type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
+        /* Animation pour le texte et formulaire */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
 
-					{#
-					        Uncomment this section and add a remember_me option below your firewall to activate remember me functionality.
-					        See https://symfony.com/doc/current/security/remember_me.html
-					
-					        <div class="checkbox mb-3">
-					            <label>
-					                <input type="checkbox" name="_remember_me"> Remember me
-					            </label>
-					        </div>
-					#}
+        .animate-title {
+            animation: fadeInDown 1s ease-out;
+        }
 
-					<!-- Partie Captcha -->
-					<div id="captcha-question" class="fw-bold">{{ captcha_question }}</div>
-					<input type="text" id="captcha-input" name="captcha" required>
-					<input type="hidden" id="captcha-solution" name="captcha_solution" value="{{ captcha_solution }}">
+        .animate-text {
+            animation: fadeInUp 1s ease-out 0.3s;
+            animation-fill-mode: both;
+        }
 
-					<div class="text-center">
-					<button class="btn bg-primary text-white m-4" type="submit">
-						CONNEXION
-					</button>
-                    </div>
-				</form>
-			<script src="{{ asset('Js/captcha.js') }}"></script>
-			</div>
-		</div>
-	</div>
+        .content-wrapper {
+            transition: box-shadow 0.3s ease;
+        }
+
+        .content-wrapper:hover {
+            box-shadow: 0 0 15px rgba(46, 164, 79, 0.3);
+        }
+
+        /* Style pour le formulaire */
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        label {
+            color: var(--github-dark);
+            font-weight: 500;
+        }
+
+        input[type="email"],
+        input[type="password"],
+        input[type="text"] {
+            width: 100%;
+            padding: 0.6rem;
+            border: 1px solid var(--github-grey);
+            border-radius: 4px;
+            background-color: #ffffff;
+            color: var(--github-dark);
+            transition: border-color 0.3s ease;
+        }
+
+        input[type="email"]:focus,
+        input[type="password"]:focus,
+        input[type="text"]:focus {
+            border-color: var(--custom-green);
+            outline: none;
+        }
+
+        input[type="checkbox"] {
+            margin-right: 0.5rem;
+        }
+
+        /* Style pour le bouton d'envoi */
+        .submit-btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0.6rem 1.2rem;
+            background-color: var(--custom-green);
+            color: #ffffff;
+            border: 1px solid var(--custom-green);
+            border-radius: 6px;
+            font-weight: 500;
+            text-align: center;
+            cursor: pointer;
+            transition: background-color 0.2s ease, color 0.2s ease;
+        }
+
+        .submit-btn:hover {
+            background-color: var(--green-hover);
+            color: #ffffff;
+            border-color: var(--green-hover);
+        }
+
+        /* Style pour les alertes */
+        .alert-danger {
+            background-color: #f8d7da;
+            border-color: #f5c6cb;
+            color: #721c24;
+            padding: 1rem;
+            border-radius: 4px;
+            margin-bottom: 1.5rem;
+        }
+
+        /* Style pour les liens */
+        a {
+            text-decoration: none;
+            transition: color 0.2s ease;
+        }
+
+        a:hover {
+            color: var(--green-hover);
+        }
+    </style>
 {% endblock %}

@@ -31,7 +31,7 @@ security:
         # - { path: ^/admin, roles: ROLE_ADMIN }
         # - { path: ^/profile, roles: ROLE_USER }
         # Autoriser l'accès à /stats/files même pour les utilisateurs non authentifiés
-        - { path: ^/stats/files, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/stats, roles: ROLE_ADMIN }
         - { path: ^/private, roles: IS_AUTHENTICATED_FULLY }
 
 when@test:

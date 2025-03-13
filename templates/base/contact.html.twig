@@ -3,13 +3,120 @@
 {% block title %}{{parent()}}Contact{% endblock %}
 
 {% block body %}
-    <div class="container-fluid">
-	    <div class="row justify-content-center">
-			
-                    <div class="col-10 text-primary">
-                        <h1 class="text-center text-primary mt-4 pt-4 display-1 fw-bold">CONTACT</h1>
-                        {{form(form)}}
-                    </div>    
-	    </div>
-	</div>
+    <div class="container mt-5">
+        <div class="content-wrapper" style="background-color: #f6f8fa; border: 1px solid var(--custom-green); border-radius: 6px; padding: 2rem;">
+            <h1 class="text-center mt-4 pt-4 display-4 fw-bold animate-title" style="color: var(--custom-green);">
+                CONTACT
+            </h1>
+            <div class="row justify-content-center">
+                <div class="col-10 p-4" style="color: var(--github-dark);">
+                    {{form(form)}}
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <style>
+        /* Animation pour le titre */
+        @keyframes fadeInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Animation pour le formulaire */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .animate-title {
+            animation: fadeInDown 1s ease-out;
+        }
+
+        .content-wrapper {
+            transition: box-shadow 0.3s ease;
+        }
+
+        .content-wrapper:hover {
+            box-shadow: 0 0 15px rgba(46, 164, 79, 0.3);
+        }
+
+        /* Style pour les éléments du formulaire */
+        .form-group {
+            margin-bottom: 1.5rem;
+            animation: fadeInUp 1s ease-out 0.3s;
+            animation-fill-mode: both;
+        }
+
+        /* Style pour les labels et inputs du formulaire */
+        label {
+            color: var(--github-dark);
+            font-weight: 500;
+        }
+
+        input[type="text"],
+        input[type="email"],
+        textarea {
+            width: 100%;
+            padding: 0.6rem;
+            border: 1px solid var(--github-grey);
+            border-radius: 4px;
+            background-color: #ffffff;
+            color: var(--github-dark);
+            transition: border-color 0.3s ease;
+        }
+
+        input[type="text"]:focus,
+        input[type="email"]:focus,
+        textarea:focus {
+            border-color: var(--custom-green);
+            outline: none;
+        }
+
+        /* Style pour le bouton d'envoi */
+        input[type="submit"],
+        button[type="submit"],
+        .btn-primary {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0.6rem 1.2rem;
+            background-color: var(--custom-green) !important;
+            color: #ffffff !important;
+            border: 1px solid var(--custom-green) !important;
+            border-radius: 6px;
+            font-weight: 500;
+            text-align: center;
+            cursor: pointer;
+            transition: background-color 0.2s ease, color 0.2s ease;
+        }
+
+        input[type="submit"]:hover,
+        button[type="submit"]:hover,
+        .btn-primary:hover {
+            background-color: var(--green-hover) !important;
+            color: #ffffff !important;
+            border-color: var(--green-hover) !important;
+        }
+
+        /* Désactiver les styles Bootstrap par défaut */
+        .btn-primary {
+            --bs-btn-bg: none;
+            --bs-btn-border-color: none;
+            --bs-btn-hover-bg: none;
+            --bs-btn-hover-border-color: none;
+        }
+    </style>
 {% endblock %}

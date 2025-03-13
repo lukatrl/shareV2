@@ -1,43 +1,112 @@
 {% extends 'base.html.twig' %}
 
 {% block title %}
-	{{parent()}}Liste des contacts
+    {{parent()}}Liste des contacts
 {% endblock %}
 
 {% block body %}
-	<div class="container-fluid">
-		<h1 class="text-center text-primary mt-4 pt-4 display-1 fw-bold">
-			Liste des contacts</h1>
+    <div class="container mt-5">
+        <div class="content-wrapper" style="background-color: #f6f8fa; border: 1px solid var(--custom-green); border-radius: 6px; padding: 2rem;">
+            <h1 class="text-center mt-4 pt-4 display-4 fw-bold animate-title" style="color: var(--custom-green);">
+                Liste des contacts
+            </h1>
+            <div class="row justify-content-center">
+                <div class="col-12 col-md-8 p-4 m-0" style="color: var(--github-dark);">
+                    <div class="table-responsive">
+                        <table class="table table-hover animate-table">
+                            <thead style="background-color: var(--github-dark); color: var(--github-grey);">
+                                <tr>
+                                    <th scope="col">Nom</th>
+                                    <th scope="col">Sujet</th>
+                                    <th scope="col">Email</th>
+                                    <th scope="col">Date d'envoi</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for contact in contacts | sort((a, b) => b.dateEnvoi <=> a.dateEnvoi) %}
+                                    <tr class="animate-row" style="background-color: {{ cycle(['#ffffff', '#f6f8fa'], loop.index0) }};">
+                                        <td>{{ contact.nom | capitalize }}</td>
+                                        <td>{{ contact.sujet | capitalize }}</td>
+                                        <td>{{ contact.email | lower }}</td>
+                                        <td>{{ contact.dateEnvoi | date("d-m-Y à H:i:s") }}</td>
+                                    </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 
+    <style>
+        /* Animation pour le titre */
+        @keyframes fadeInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
 
-		<div class="row justify-content-center">
-			<div class="col-12 col-md-8 bg-white p-4 m-0 text-primary">
-				<div class="table-responsive">
-					<table class="table table-hover">
-						<thead>
-							<tr class="fw-bold text-primary">
-								<th scope="col">Nom</th>
-								<th scope="col">Sujet</th>
-                                <th scope="col">Email</th>
-								<th scope="col">Date d'envoi</th>
+        /* Animation pour la table */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
 
-							</tr>
-						</thead>
-						<tbody>
-							{% for contact in contacts |sort((a, b) => b.dateEnvoi <=> a.dateEnvoi) %}
-								<tr class="{{ cycle(['table-primary', 'table-secondary'], loop.index0) }}">
-									<td>{{ contact.nom | capitalize }}</td>
-									<td>{{ contact.sujet | capitalize }}</td>
-                                    <td>{{ contact.email | lower }}</td>
-									<td>{{ contact.dateEnvoi | date("d-m-Y à H:i:s") }}</td>
+        /* Animation pour les lignes au survol */
+        @keyframes rowHighlight {
+            from {
+                background-color: inherit;
+            }
+            to {
+                background-color: rgba(46, 164, 79, 0.1);
+            }
+        }
 
-								</tr>
-							{% endfor %}
-						</tbody>
-					</table>
-				</div>
-			</div>
-		</div>
-	</div>
+        .animate-title {
+            animation: fadeInDown 1s ease-out;
+        }
 
+        .animate-table {
+            animation: fadeInUp 1s ease-out 0.3s;
+            animation-fill-mode: both;
+        }
+
+        .animate-row {
+            transition: background-color 0.3s ease;
+        }
+
+        .animate-row:hover {
+            animation: rowHighlight 0.3s ease forwards;
+        }
+
+        .content-wrapper {
+            transition: box-shadow 0.3s ease;
+        }
+
+        .content-wrapper:hover {
+            box-shadow: 0 0 15px rgba(46, 164, 79, 0.3);
+        }
+
+        /* Style pour la table */
+        .table th, .table td {
+            padding: 1rem;
+            vertical-align: middle;
+        }
+
+        .table thead th {
+            font-weight: 500;
+        }
+    </style>
 {% endblock %}

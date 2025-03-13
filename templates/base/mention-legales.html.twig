@@ -1,7 +1,119 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}{{parent()}}Mention-légales{% endblock %}
+{% block title %}{{parent()}}Mentions légales{% endblock %}
 
 {% block body %}
-    <h1 class="text-center text-primary mt-4 pt-4 display-1 fw-bold"> MENTION LEGALES</h1>
+    <div class="container mt-5">
+        <div class="content-wrapper" style="background-color: #f6f8fa; border: 1px solid var(--custom-green); border-radius: 6px; padding: 2rem;">
+            <h1 class="text-center mt-4 pt-4 display-4 fw-bold animate-title" style="color: var(--custom-green);">
+                MENTIONS LÉGALES
+            </h1>
+            <div class="row justify-content-center">
+                <div class="col-10 p-4" style="color: var(--github-dark);">
+                    <h2 class="animate-text" style="font-size: 1.5rem; color: var(--github-dark); margin-bottom: 1.5rem;">
+                        Éditeur du site
+                    </h2>
+                    <p class="animate-text">
+                        Le site <strong>SHARE v2</strong> est édité par la société fictive <strong>SHARE Corp</strong>, 
+                        une SARL au capital de 10 000 €, immatriculée au RCS de Paris sous le numéro 123 456 789, 
+                        dont le siège social est situé au 42 Rue du Code, 75001 Paris, France.
+                    </p>
+                    <p class="animate-text">
+                        Contact : <a href="mailto:contact@sharev2.fr" style="color: var(--custom-green);">contact@sharev2.fr</a> | Téléphone : 01 23 45 67 89
+                    </p>
+
+                    <h2 class="animate-text" style="font-size: 1.5rem; color: var(--github-dark); margin-bottom: 1.5rem;">
+                        Hébergement
+                    </h2>
+                    <p class="animate-text">
+                        Le site est hébergé par <strong>HostFictif SAS</strong>, 
+                        situé au 15 Avenue des Serveurs, 69000 Lyon, France. 
+                        Téléphone : 04 56 78 90 12 | Site : <a href="http://www.hostfictif.fr" style="color: var(--custom-green);">www.hostfictif.fr</a>
+                    </p>
+
+                    <h2 class="animate-text" style="font-size: 1.5rem; color: var(--github-dark); margin-bottom: 1.5rem;">
+                        Propriété intellectuelle
+                    </h2>
+                    <p class="animate-text">
+                        L’ensemble des contenus présents sur <strong>SHARE v2</strong> (textes, images, logos, etc.) 
+                        est la propriété exclusive de SHARE Corp ou de ses partenaires. Toute reproduction, même partielle, 
+                        est interdite sans autorisation préalable écrite.
+                    </p>
+
+                    <h2 class="animate-text" style="font-size: 1.5rem; color: var(--github-dark); margin-bottom: 1.5rem;">
+                        Données personnelles
+                    </h2>
+                    <p class="animate-text">
+                        Les données collectées via le site (noms, emails, fichiers) sont utilisées uniquement pour 
+                        assurer le bon fonctionnement du service de stockage en ligne. Conformément à la loi Informatique 
+                        et Libertés du 6 janvier 1978 et au RGPD, vous disposez d’un droit d’accès, de rectification 
+                        et de suppression de vos données. Contactez-nous à <a href="mailto:privacy@sharev2.fr" style="color: var(--custom-green);">privacy@sharev2.fr</a>.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <style>
+        /* Animation pour le titre */
+        @keyframes fadeInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Animation pour le texte */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .animate-title {
+            animation: fadeInDown 1s ease-out;
+        }
+
+        .animate-text {
+            animation: fadeInUp 1s ease-out 0.3s;
+            animation-fill-mode: both;
+        }
+
+        .content-wrapper {
+            transition: box-shadow 0.3s ease;
+        }
+
+        .content-wrapper:hover {
+            box-shadow: 0 0 15px rgba(46, 164, 79, 0.3);
+        }
+
+        /* Style pour le texte */
+        h2 {
+            font-weight: 500;
+        }
+
+        p {
+            font-size: 1rem;
+            line-height: 1.6;
+            margin-bottom: 1.5rem;
+        }
+
+        a {
+            text-decoration: none;
+            transition: color 0.2s ease;
+        }
+
+        a:hover {
+            color: var(--green-hover);
+        }
+    </style>
 {% endblock %}

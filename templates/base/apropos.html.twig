@@ -1,7 +1,87 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}{{parent()}}A propos{% endblock %}
+{% block title %}{{parent()}}À propos{% endblock %}
 
 {% block body %}
-    <h1 class="text-center text-primary mt-4 pt-4 display-1 fw-bold"> A PROPOS</h1>
+    <div class="container mt-5">
+        <div class="content-wrapper" style="background-color: #f6f8fa; border: 1px solid var(--custom-green); border-radius: 6px; padding: 2rem;">
+            <h1 class="text-center mt-4 pt-4 display-4 fw-bold animate-title" style="color: var(--custom-green);">
+                À PROPOS
+            </h1>
+            <div class="row justify-content-center">
+                <div class="col-10 p-4" style="color: var(--github-dark);">
+                    <p class="lead text-center animate-text">
+                        SHARE v2 est ton espace de stockage en ligne simple et efficace. 
+                        Ici, tu peux uploader, gérer et partager tes fichiers en toute tranquillité.
+                    </p>
+                    <p class="animate-text">
+                        Le but ? Te fournir un outil rapide pour stocker tes documents, photos, ou tout ce que tu veux, 
+                        avec une interface claire et sans prise de tête. Que ce soit pour un usage perso ou pro, 
+                        on a pensé à tout : télécharge tes fichiers, organise-les comme tu kiffes, 
+                        et télécharge-les quand tu veux, où tu veux.
+                    </p>
+                    <p class="animate-text">
+                        Pas de chichi, pas de complications. SHARE v2, c’est du stockage en ligne à l’ancienne, 
+                        mais avec un twist moderne et sécurisé. Rejoins-nous et fais de la place dans ta vie numérique !
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <style>
+        /* Animation pour le titre */
+        @keyframes fadeInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Animation pour le texte */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .animate-title {
+            animation: fadeInDown 1s ease-out;
+        }
+
+        .animate-text {
+            animation: fadeInUp 1s ease-out 0.3s;
+            animation-fill-mode: both;
+        }
+
+        .content-wrapper {
+            transition: box-shadow 0.3s ease;
+        }
+
+        .content-wrapper:hover {
+            box-shadow: 0 0 15px rgba(46, 164, 79, 0.3);
+        }
+
+        /* Style pour le texte */
+        .lead {
+            font-size: 1.25rem;
+            font-weight: 400;
+            margin-bottom: 1.5rem;
+        }
+
+        p {
+            font-size: 1rem;
+            line-height: 1.6;
+            margin-bottom: 1.5rem;
+        }
+    </style>
 {% endblock %}

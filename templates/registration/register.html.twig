@@ -4,27 +4,146 @@
 
 {% block body %}
     {% for flash_error in app.flashes('verify_email_error') %}
-        <div class="alert alert-danger" role="alert">{{ flash_error }}</div>
+        <div class="alert alert-danger animate-text" role="alert">{{ flash_error }}</div>
     {% endfor %}
 
-    <div class="container-fluid">
-	<h1 class="text-center text-primary mt-4 pt-4 display-1 fw-bold">Register</h1>
-
-    <div class="row justify-content-center">
-    <div class="col-12 col-md-6 bg-white p-4 m-0 text-primary">
-    {{ form_start(registrationForm) }}
-        {{ form_row(registrationForm.email) }}
-        {{ form_row(registrationForm.nom) }}
-        {{ form_row(registrationForm.prenom) }}
-        {{ form_row(registrationForm.plainPassword, {
-            label: 'Mot de passe'
-        }) }}
-        {{ form_row(registrationForm.agreeTerms, {
-            label: 'Accépter les termes'
-        }) }}
-        <div class="text-center">
-        <button class="btn bg-primary text-white m-4" type="submit" class="btn">s'inscrire</button>{{ form_end(registrationForm) }}
-		</div>
-	</div>
+    <div class="container mt-5">
+        <div class="content-wrapper" style="background-color: #f6f8fa; border: 1px solid var(--custom-green); border-radius: 6px; padding: 2rem;">
+            <h1 class="text-center mt-4 pt-4 display-4 fw-bold animate-title" style="color: var(--custom-green);">
+                Inscription
+            </h1>
+            <div class="row justify-content-center">
+                <div class="col-12 col-md-6 p-4 m-0" style="color: var(--github-dark);">
+                    {{ form_start(registrationForm) }}
+                        <div class="form-group animate-text">
+                            {{ form_row(registrationForm.email, { 'label_attr': {'class': 'fw-bold'} }) }}
+                        </div>
+                        <div class="form-group animate-text">
+                            {{ form_row(registrationForm.nom, { 'label_attr': {'class': 'fw-bold'} }) }}
+                        </div>
+                        <div class="form-group animate-text">
+                            {{ form_row(registrationForm.prenom, { 'label_attr': {'class': 'fw-bold'} }) }}
+                        </div>
+                        <div class="form-group animate-text">
+                            {{ form_row(registrationForm.plainPassword, { 'label': 'Mot de passe', 'label_attr': {'class': 'fw-bold'} }) }}
+                        </div>
+                        <div class="form-group animate-text">
+                            {{ form_row(registrationForm.agreeTerms, { 'label': 'Accepter les termes', 'label_attr': {'class': 'fw-bold'} }) }}
+                        </div>
+                        <div class="text-center">
+                            <button type="submit" class="submit-btn">S'inscrire</button>
+                        </div>
+                    {{ form_end(registrationForm) }}
+                </div>
+            </div>
+        </div>
     </div>
+
+    <style>
+        /* Animation pour le titre */
+        @keyframes fadeInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Animation pour le texte et formulaire */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .animate-title {
+            animation: fadeInDown 1s ease-out;
+        }
+
+        .animate-text {
+            animation: fadeInUp 1s ease-out 0.3s;
+            animation-fill-mode: both;
+        }
+
+        .content-wrapper {
+            transition: box-shadow 0.3s ease;
+        }
+
+        .content-wrapper:hover {
+            box-shadow: 0 0 15px rgba(46, 164, 79, 0.3);
+        }
+
+        /* Style pour le formulaire */
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        label {
+            color: var(--github-dark);
+            font-weight: 500;
+        }
+
+        input[type="text"],
+        input[type="email"],
+        input[type="password"] {
+            width: 100%;
+            padding: 0.6rem;
+            border: 1px solid var(--github-grey);
+            border-radius: 4px;
+            background-color: #ffffff;
+            color: var(--github-dark);
+            transition: border-color 0.3s ease;
+        }
+
+        input[type="checkbox"] {
+            margin-right: 0.5rem;
+        }
+
+        input[type="text"]:focus,
+        input[type="email"]:focus,
+        input[type="password"]:focus {
+            border-color: var(--custom-green);
+            outline: none;
+        }
+
+        /* Style pour le bouton d'envoi */
+        .submit-btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0.6rem 1.2rem;
+            background-color: var(--custom-green);
+            color: #ffffff;
+            border: 1px solid var(--custom-green);
+            border-radius: 6px;
+            font-weight: 500;
+            text-align: center;
+            cursor: pointer;
+            transition: background-color 0.2s ease, color 0.2s ease;
+        }
+
+        .submit-btn:hover {
+            background-color: var(--green-hover);
+            color: #ffffff;
+            border-color: var(--green-hover);
+        }
+
+        /* Style pour les alertes */
+        .alert-danger {
+            background-color: #f8d7da;
+            border-color: #f5c6cb;
+            color: #721c24;
+            padding: 1rem;
+            border-radius: 4px;
+            margin-bottom: 1.5rem;
+        }
+    </style>
 {% endblock %}

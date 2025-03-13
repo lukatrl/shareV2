@@ -3,26 +3,92 @@
 {% block title %}{{parent()}}Profil{% endblock %}
 
 {% block body %}
-	<h1 class="text-center text-primary mt-4 pt-4 display-1 fw-bold">Profil</h1>
+    <div class="container mt-5">
+        <div class="content-wrapper" style="background-color: #f6f8fa; border: 1px solid var(--custom-green); border-radius: 6px; padding: 2rem;">
+            <h1 class="text-center mt-4 pt-4 display-4 fw-bold animate-title" style="color: var(--custom-green);">
+                Profil
+            </h1>
+            <div class="row justify-content-center">
+                <div class="col-12 col-md-8 p-4 m-0" style="color: var(--github-dark);">
+                    <div class="profile-info animate-text">
+                        <p><strong>Email :</strong> {{ app.user.email | capitalize }}</p>
+                        <p><strong>Nom :</strong> {{ app.user.nom | capitalize }}</p>
+                        <p><strong>Prénom :</strong> {{ app.user.prenom | capitalize }}</p>
+                        <p><strong>Date d'inscription :</strong> {{ app.user.dateInscription | date("d-m-Y à H:i:s") }}</p>
+                        <p><strong>Rôle :</strong>
+                            {% if "ROLE_ADMIN" in app.user.roles %}
+                                Administrateur
+                            {% elseif "ROLE_MOD" in app.user.roles %}
+                                Modérateur
+                            {% else %}
+                                Utilisateur
+                            {% endif %}
+                        </p>
+                        <p><strong>Statut du compte :</strong>
+                            {% if app.user.isVerified == 0 %}
+                                Non vérifié
+                            {% else %}
+                                Vérifié
+                            {% endif %}
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 
-	<div class="col-12 col-md-8 bg-white p-4 m-0 text-primary">
-		<p>Email: {{ app.user.email | capitalize }}</p>
-		<p>Nom: {{ app.user.nom | capitalize }}</p>
-		<p>Prenom: {{ app.user.prenom | capitalize }}</p>
-		<p>Date d'inscription: {{ app.user.dateInscription | date("d-m-Y à H:i:s") }}</p>
+    <style>
+        /* Animation pour le titre */
+        @keyframes fadeInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
 
-		{% if "ROLE_ADMIN" in app.user.roles %}
-			<p>Rôle: administrateur</p>
-		{% elseif "ROLE_MOD" in app.user.roles %}
-			<p>Rôle: modérateur</p>
-		{% else %}
-			<p>Rôle: utilisateur</p>
-		{% endif %}
+        /* Animation pour le texte */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
 
-		{% if app.user.isVerified == 0 %}
-			<p>Satus du compte: non vérifié</p>
-		{% else %}
-			<p>Satus du compte: vérifié</p>
-		{% endif %}
-	</div>
+        .animate-title {
+            animation: fadeInDown 1s ease-out;
+        }
+
+        .animate-text {
+            animation: fadeInUp 1s ease-out 0.3s;
+            animation-fill-mode: both;
+        }
+
+        .content-wrapper {
+            transition: box-shadow 0.3s ease;
+        }
+
+        .content-wrapper:hover {
+            box-shadow: 0 0 15px rgba(46, 164, 79, 0.3);
+        }
+
+        /* Style pour le texte du profil */
+        .profile-info p {
+            font-size: 1rem;
+            line-height: 1.6;
+            margin-bottom: 1rem;
+        }
+
+        .profile-info strong {
+            color: var(--custom-green);
+            font-weight: 500;
+        }
+    </style>
 {% endblock %}
