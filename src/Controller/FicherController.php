@@ -10,6 +10,7 @@ use Symfony\Component\String\Slugger\SluggerInterface;
 use App\Form\AjoutFichierType;
 use App\Entity\Fichier;
 use Doctrine\ORM\EntityManagerInterface;
+use App\Entity\Favoris;
 
 class FicherController extends AbstractController
 {
@@ -62,5 +63,39 @@ class FicherController extends AbstractController
         else{
             return $this->file($this->getParameter('file_directory').'/'.$fichier->getNomServeur(), $fichier->getNomOriginal());
         } 
-    } 
+    }
+
+ #[Route('/fav/{id}', name: 'app_fav_fichier')]
+public function favFichier(Fichier $fichier, EntityManagerInterface $emi): Response 
+{
+    $user = $this->getUser();
+
+    if (!$user) {
+        $this->addFlash('error', 'Vous devez être connecté pour ajouter un favori.');
+        return $this->redirectToRoute('ajout-fichier');
+    }
+
+    $repoFavoris = $emi->getRepository(Favoris::class);
+    $favori = $repoFavoris->findOneBy([
+        'user' => $user,
+        'fichier' => $fichier
+    ]);
+
+    if ($favori) { 
+        $emi->remove($favori);
+        $this->addFlash('notice', 'Fichier retiré des favoris');
+    } else {
+
+        $favori = new Favoris();
+        $favori->setUser($user);
+        $favori->setFichier($fichier);
+
+        $emi->persist($favori);
+        $this->addFlash('notice', 'Fichier ajouté aux favoris');
+    }
+
+    $emi->flush();
+    return $this->redirectToRoute('ajout-fichier');
+}
+
 }

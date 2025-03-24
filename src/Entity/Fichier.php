@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\FichierRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -32,6 +34,14 @@ class Fichier
     #[ORM\ManyToOne(inversedBy: 'fichiers')]
     #[ORM\JoinColumn(nullable: false)]
     private ?User $proprietaire = null;
+
+    #[ORM\OneToMany(mappedBy: 'fichier', targetEntity: Favoris::class)]
+    private Collection $favoris;
+
+    public function __construct()
+    {
+        $this->favoris = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -106,6 +116,36 @@ class Fichier
     public function setProprietaire(?User $proprietaire): self
     {
         $this->proprietaire = $proprietaire;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Favoris>
+     */
+    public function getFavoris(): Collection
+    {
+        return $this->favoris;
+    }
+
+    public function addFavori(Favoris $favori): self
+    {
+        if (!$this->favoris->contains($favori)) {
+            $this->favoris->add($favori);
+            $favori->setFichier($this);
+        }
+
+        return $this;
+    }
+
+    public function removeFavori(Favoris $favori): self
+    {
+        if ($this->favoris->removeElement($favori)) {
+            // set the owning side to null (unless already changed)
+            if ($favori->getFichier() === $this) {
+                $favori->setFichier(null);
+            }
+        }
 
         return $this;
     }
