@@ -27,6 +27,7 @@
                                     <th scope="col">Extension</th>
                                     <th scope="col">Taille</th>
                                     <th scope="col">Fav</th>
+                                    <th scope="col">Tags</th>
                                     <th scope="col"></th>
                                 </tr>
                             </thead>
@@ -49,6 +50,19 @@
                                             <a href="{{ path('app_fav_fichier', {'id': f.id}) }}" class="me-2">
                                                 <i class="bi {{ isFavorite ? 'bi-star-fill text-warning' : 'bi-star' }} cursor-pointer"></i>
                                             </a>
+                                        </td>
+                                        <td>
+                                            {% for tagFichier in f.tagFichiers %}
+                                                {% if tagFichier.tag.nom is not defined or tagFichier.tag.nom is empty %}
+                                                    <div class="badge" style="background-color: grey; color: #fff; padding: 5px 10px; border-radius: 4px;">
+                                                        Sans tags
+                                                    </div>
+                                                {% else %}
+                                                    <div class="badge" style="background-color: {{ tagFichier.tag.couleur }}; color: #fff; padding: 5px 10px; border-radius: 4px;">
+                                                        {{ tagFichier.tag.nom }}
+                                                    </div>
+                                                {% endif %}
+                                            {% endfor %}
                                         </td>
                                         <td>
                                             <a href="{{ path('telechargement-fichier', {'id': f.id}) }}" target="_blank">

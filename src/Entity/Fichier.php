@@ -38,9 +38,13 @@ class Fichier
     #[ORM\OneToMany(mappedBy: 'fichier', targetEntity: Favoris::class)]
     private Collection $favoris;
 
+    #[ORM\OneToMany(mappedBy: 'Fichier', targetEntity: TagFichier::class)]
+    private Collection $tagFichiers;
+
     public function __construct()
     {
         $this->favoris = new ArrayCollection();
+        $this->tagFichiers = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -144,6 +148,36 @@ class Fichier
             // set the owning side to null (unless already changed)
             if ($favori->getFichier() === $this) {
                 $favori->setFichier(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, TagFichier>
+     */
+    public function getTagFichiers(): Collection
+    {
+        return $this->tagFichiers;
+    }
+
+    public function addTagFichier(TagFichier $tagFichier): self
+    {
+        if (!$this->tagFichiers->contains($tagFichier)) {
+            $this->tagFichiers->add($tagFichier);
+            $tagFichier->setFichier($this);
+        }
+
+        return $this;
+    }
+
+    public function removeTagFichier(TagFichier $tagFichier): self
+    {
+        if ($this->tagFichiers->removeElement($tagFichier)) {
+            // set the owning side to null (unless already changed)
+            if ($tagFichier->getFichier() === $this) {
+                $tagFichier->setFichier(null);
             }
         }
 
