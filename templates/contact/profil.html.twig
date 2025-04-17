@@ -15,6 +15,7 @@
                         <p><strong>Nom :</strong> {{ app.user.nom | capitalize }}</p>
                         <p><strong>Prénom :</strong> {{ app.user.prenom | capitalize }}</p>
                         <p><strong>Date d'inscription :</strong> {{ app.user.dateInscription | date("d-m-Y à H:i:s") }}</p>
+                        <p><strong>quotas :<strong> {{ app.user.quota.quotaMax / 1048576 }}</p>
                         <p><strong>Rôle :</strong>
                             {% if "ROLE_ADMIN" in app.user.roles %}
                                 Administrateur

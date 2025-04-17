@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}{{parent()}}Liste des utilisateurs{% endblock %}
+{% block title %}{{ parent() }} Liste des utilisateurs{% endblock %}
 
 {% block body %}
     <div class="container mt-5">
@@ -18,10 +18,12 @@
                                     <th scope="col">Date d'inscription</th>
                                     <th scope="col">Rôle</th>
                                     <th scope="col">Vérifié</th>
+                                    <th scope="col">Quota</th>
+                                    <th scope="col">Quota utilisé</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                {% for user in user %}
+                                {% for user in users %}
                                     <tr class="animate-row" style="background-color: {{ cycle(['#ffffff', '#f6f8fa'], loop.index0) }};">
                                         <td>{{ user.email | capitalize }}</td>
                                         <td>{{ user.dateInscription | date("d-m-Y à H:i:s") }}</td>
@@ -41,6 +43,20 @@
                                                 Vérifié
                                             {% endif %}
                                         </td>
+                                        <td>
+                                            {% if user.quota %}
+                                                {{ user.quota.quotaMax / 1048576 }} Mo
+                                            {% else %}
+                                                Aucune donnée
+                                            {% endif %}
+                                        </td>
+                                        <td>
+                                            {% set espaceUtilise = 0 %}
+                                            {% for fichier in user.fichiers %}
+                                                {% set espaceUtilise = espaceUtilise + fichier.taille %}
+                                            {% endfor %}
+                                            {{ espaceUtilise / 1048576 }} Mo  <!-- Affichage de l'espace utilisé -->
+                                        </td>
                                     </tr>
                                 {% endfor %}
                             </tbody>
@@ -50,75 +66,4 @@
             </div>
         </div>
     </div>
-
-    <style>
-        /* Animation pour le titre */
-        @keyframes fadeInDown {
-            from {
-                opacity: 0;
-                transform: translateY(-20px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        /* Animation pour la table */
-        @keyframes fadeInUp {
-            from {
-                opacity: 0;
-                transform: translateY(20px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        /* Animation pour les lignes au survol */
-        @keyframes rowHighlight {
-            from {
-                background-color: inherit;
-            }
-            to {
-                background-color: rgba(46, 164, 79, 0.1);
-            }
-        }
-
-        .animate-title {
-            animation: fadeInDown 1s ease-out;
-        }
-
-        .animate-table {
-            animation: fadeInUp 1s ease-out 0.3s;
-            animation-fill-mode: both;
-        }
-
-        .animate-row {
-            transition: background-color 0.3s ease;
-        }
-
-        .animate-row:hover {
-            animation: rowHighlight 0.3s ease forwards;
-        }
-
-        .content-wrapper {
-            transition: box-shadow 0.3s ease;
-        }
-
-        .content-wrapper:hover {
-            box-shadow: 0 0 15px rgba(46, 164, 79, 0.3);
-        }
-
-        /* Style pour la table */
-        .table th, .table td {
-            padding: 1rem;
-            vertical-align: middle;
-        }
-
-        .table thead th {
-            font-weight: 500;
-        }
-    </style>
 {% endblock %}

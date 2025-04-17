@@ -49,7 +49,17 @@ class FichierRepository extends ServiceEntityRepository
             
             
         return $qb->getQuery()->getResult();
-    }    
+    }
+
+    public function getEspaceUtiliseParUtilisateur($user): int
+{
+    return (int) $this->createQueryBuilder('f')
+        ->select('SUM(f.taille)')
+        ->where('f.proprietaire = :user')
+        ->setParameter('user', $user)
+        ->getQuery()
+        ->getSingleScalarResult() ?? 0;
+}
 
 //    /**
 //     * @return Fichier[] Returns an array of Fichier objects

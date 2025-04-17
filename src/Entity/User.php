@@ -50,6 +50,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\OneToMany(mappedBy: 'user', targetEntity: Favoris::class)]
     private Collection $favoris;
 
+    #[ORM\OneToOne(mappedBy: 'user', cascade: ['persist', 'remove'])]
+    private ?Quota $quota = null;
+
     public function __construct()
     {
         $this->fichiers = new ArrayCollection();
@@ -249,6 +252,28 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
                 $favori->setUser(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getQuota(): ?Quota
+    {
+        return $this->quota;
+    }
+
+    public function setQuota(?Quota $quota): self
+    {
+        // unset the owning side of the relation if necessary
+        if ($quota === null && $this->quota !== null) {
+            $this->quota->setUser(null);
+        }
+
+        // set the owning side of the relation if necessary
+        if ($quota !== null && $quota->getUser() !== $this) {
+            $quota->setUser($this);
+        }
+
+        $this->quota = $quota;
 
         return $this;
     }

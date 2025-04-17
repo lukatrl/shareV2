@@ -10,11 +10,33 @@
             <h1 class="text-center mt-4 pt-4 display-4 fw-bold animate-title" style="color: var(--custom-green);">
                 Ajouter un fichier
             </h1>
+
+            <!-- Section pour afficher les messages flash -->
+            {% for message in app.flashes('error') %}
+                <div class="alert alert-danger">
+                    {{ message }}
+                </div>
+            {% endfor %}
+
+            {% for message in app.flashes('notice') %}
+                <div class="alert alert-success">
+                    {{ message }}
+                </div>
+            {% endfor %}
+
+            <!-- Section pour afficher l'espace de stockage -->
+            <div class="alert alert-info">
+                <strong>Quota de stockage :</strong> {{ espaceUtilise / 1048576 }} Mo / {{ quotaMax / 1048576 }} Mo
+                <br>
+                <strong>Espace restant :</strong> {{ espaceRestant / 1048576 }} Mo
+            </div>
+
             <div class="row justify-content-center">
                 <div class="col-12 p-4 m-0" style="color: var(--github-dark);">
                     {{ form(form) }}
                 </div>
             </div>
+
             <div class="row justify-content-center">
                 <div class="col-12 p-4 m-0" style="color: var(--github-dark);">
                     <div class="table-responsive">
