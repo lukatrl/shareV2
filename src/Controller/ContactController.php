@@ -12,7 +12,7 @@ use App\Entity\Fichier;
 
 class ContactController extends AbstractController
 {
-    #[Route('/private-liste-contacts', name: 'liste-contacts')]
+    #[Route('/admin/private-liste-contacts', name: 'liste-contacts')]
     public function listeContacts(EntityManagerInterface $entityManagerInterface): Response
     {
         $repoContact = $entityManagerInterface->getRepository(Contact::class);
@@ -21,7 +21,7 @@ class ContactController extends AbstractController
            'contacts' => $contacts
         ]);
     }
-    #[Route('/private-utilisateurs', name: 'utilisateurs')]
+    #[Route('/admin/private-utilisateurs', name: 'utilisateurs')]
     public function utilisateurs(EntityManagerInterface $entityManagerInterface): Response
     {
         
