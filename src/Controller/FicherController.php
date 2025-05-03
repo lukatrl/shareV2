@@ -124,14 +124,29 @@ class FicherController extends AbstractController
     #[Route('/profil-telechargement-fichier/{id}', name: 'telechargement-fichier', requirements: ["id" => "\d+"])]
     public function telechargementFichier(int $id, EntityManagerInterface $entityManagerInterface): Response
     {
+        $user = $this->getUser();
+        if (!$user) {
+            $this->addFlash('error', 'Vous devez être connecté pour télécharger un fichier.');
+            return $this->redirectToRoute('app_login'); // Rediriger vers la page de connexion
+        }
+
         $repoFichier = $entityManagerInterface->getRepository(Fichier::class);
         $fichier = $repoFichier->find($id);
 
         if (!$fichier) {
+            $this->addFlash('error', 'Fichier introuvable.');
             return $this->redirectToRoute('ajout-fichier');
         }
 
-        return $this->file($this->getParameter('file_directory') . '/' . $fichier->getNomServeur(), $fichier->getNomOriginal());
+        if ($fichier->getProprietaire() !== $user) {
+            $this->addFlash('error', 'Vous n\'êtes pas autorisé à télécharger ce fichier.');
+            return $this->redirectToRoute('ajout-fichier');
+        }
+
+        return $this->file(
+            $this->getParameter('file_directory') . '/' . $fichier->getNomServeur(),
+            $fichier->getNomOriginal()
+        );
     }
 
     #[Route('/fav/{id}', name: 'app_fav_fichier')]
